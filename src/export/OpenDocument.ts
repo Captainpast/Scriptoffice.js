@@ -45,7 +45,7 @@ function create(mimetype: string, doc: OfficeDocument): JSZip {
     return zip;
 }
 
-export async function spreadsheet(doc: CSpreadsheetDocument): Promise<Blob> {
+export async function spreadsheet(doc: CSpreadsheetDocument): Promise<ArrayBuffer> {
     var zip = create("application/vnd.oasis.opendocument.spreadsheet", doc)
 
     spreadsheetMergeStyles(doc);
@@ -71,9 +71,9 @@ export async function spreadsheet(doc: CSpreadsheetDocument): Promise<Blob> {
     "</office:settings></office:document-settings>")
 
     var file = await zip.generateAsync({
-        type: "blob",
+        type: "arraybuffer",
         platform: "UNIX",
-        mimeType: "application/ods",
+        //mimeType: "application/ods",
         compression: "DEFLATE",
         compressionOptions: { level: 9 } })
     return file;
@@ -143,7 +143,6 @@ function spreadsheetSheet(sheet: SpreadsheetDocumentSheet): string {
 
         let colStyles = doc._styles.filter(s => s._type == "table-column").sort((a, b) => a._target - b._target);
         let maxCol = colStyles.at(-1)._target;
-        console.log(maxCol, colStyles)
 
         for (let i = 1; i <= maxCol; i++) {
             const colStyle = colStyles.find(s => s._target == i);

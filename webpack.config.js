@@ -1,4 +1,4 @@
-import * as path from "path"
+import path from "path"
 import { fileURLToPath } from "url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -16,6 +16,7 @@ export default {
     filename: "script-office.min.js",
     library: "OfficeDocument",
     libraryTarget: "umd",
+    globalObject: "globalThis"
   },
   watchOptions: {
     ignored: "**/node_modules",

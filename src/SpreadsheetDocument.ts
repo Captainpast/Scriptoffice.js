@@ -2,7 +2,7 @@ import * as OpenDocument from "./export/OpenDocument";
 import { OfficeDocument } from "./OfficeDocument"
 
 interface SpreadsheetDocumentExportTypes {
-    "ods": Blob;
+    "ods": ArrayBuffer;
 }
 
 export class SpreadsheetDocument extends OfficeDocument {

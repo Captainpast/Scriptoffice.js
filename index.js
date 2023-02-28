@@ -1,3 +1,3 @@
-import * as OfficeDocument from "./dist/script-office.min";
+import "./dist/script-office.min.js"
 
-export { OfficeDocument }
+export const OfficeDocument = globalThis.OfficeDocument
