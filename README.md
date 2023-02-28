@@ -98,7 +98,7 @@ cell.style.rowHeight = 10;
 ### specials
 ``` js
 sheet.freezeAt("A1")
-sheet.autoFilter("A1", "K9") // WIP
+sheet.autoFilter("A1", "K9")
 ```
 
 # Roadmap

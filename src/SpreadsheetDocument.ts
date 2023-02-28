@@ -107,7 +107,7 @@ export class SpreadsheetDocumentSheet {
         }
     }
 
-    autoFilter(range: string): boolean;
+    //autoFilter(range: string): boolean;
     autoFilter(from: SpreadsheetDocumentCellPosition, to?: SpreadsheetDocumentCellPosition): boolean {
         if (from) {
             if (!to) {
@@ -252,4 +252,8 @@ function getColFromValue(value: number): string {
         value = Math.floor((value - modulo) / 26);
     }
     return id.toUpperCase()
+}
+
+export function getCellName(position: { col: number, row: number }) {
+    return getColFromValue(position.col) + position.row
 }

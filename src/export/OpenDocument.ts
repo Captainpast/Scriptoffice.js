@@ -1,6 +1,6 @@
 import * as JSZip from "jszip";
 import { OfficeDocument } from "../OfficeDocument";
-import { SpreadsheetDocument, SpreadsheetDocumentCell, SpreadsheetDocumentSheet, SpreadsheetDocumentStyle } from "../SpreadsheetDocument";
+import { getCellName, SpreadsheetDocument, SpreadsheetDocumentCell, SpreadsheetDocumentSheet, SpreadsheetDocumentStyle } from "../SpreadsheetDocument";
 
 type CSpreadsheetDocument = SpreadsheetDocument & { _styles: CSpreadsheetDocumentStyle[] }
 type CSpreadsheetDocumentCell = SpreadsheetDocumentCell & { style: CSpreadsheetDocumentStyle }
@@ -142,7 +142,7 @@ function spreadsheetSheet(sheet: SpreadsheetDocumentSheet): string {
         let doc = sheet.parentDocument as CSpreadsheetDocument;
 
         let colStyles = doc._styles.filter(s => s._type == "table-column").sort((a, b) => a._target - b._target);
-        let maxCol = colStyles.at(-1)._target;
+        let maxCol = colStyles.at(-1)?._target;
 
         for (let i = 1; i <= maxCol; i++) {
             const colStyle = colStyles.find(s => s._target == i);
@@ -199,9 +199,10 @@ function spreadsheetDatabase(sheet: SpreadsheetDocumentSheet): string {
     for (let i = 0; i < sheet._databases.length; i++) {
         const database = sheet._databases[i];
         
-        tableString += `<table:database-range table:name="${"_"+ i +"_"+ escapeXML(sheet.title)}" table:display-filter-buttons="true">`;
-    
-        tableString += ` table:target-range-address="Tabelle2.D5:Tabelle2.E8"`; // WIP
+        tableString += `<table:database-range table:name="${"_"+ i +"_"+ escapeXML(sheet.title)}" table:display-filter-buttons="true"`;
+
+        tableString += ` table:target-range-address="&apos;${escapeXML(sheet.title)}&apos;.${getCellName(database.range.from)}`;
+        tableString += `:&apos;${escapeXML(sheet.title)}&apos;.${getCellName(database.range.to)}">`;
     
         tableString += "</table:database-range>";
     }
