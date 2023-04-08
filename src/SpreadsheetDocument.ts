@@ -87,21 +87,72 @@ export class SpreadsheetDocumentSheet {
                 this.cells.push(cell);
             }
             return cell;
-        } else{
+        } else {
             return undefined;
         }
     }
 
-    // WIP
-    setCell(pos: SpreadsheetDocumentCellPosition, value: SpreadsheetDocumentCell) { }
-    
-    // WIP
-    getCells(pos: SpreadsheetDocumentCellPosition): SpreadsheetDocumentCell[] {
-        return null;
+    setCell(pos: SpreadsheetDocumentCellPosition, value: SpreadsheetDocumentCell) {
+        let {col, row} = getCellPosition(pos);
+        
+        if (col != null && row != null) {
+            let oldCell = this.cells.find(c => c.col == col && c.row == row)
+            if (oldCell != null) {
+                // remove old cell
+                this.cells.splice(this.cells.indexOf(oldCell), 1)
+            }
+
+            let cell = new SpreadsheetDocumentCell(col, row, value);
+            cell.parentSheet = this;
+            this.cells.push(cell);
+        }
     }
     
-    // WIP
-    setCells(pos: SpreadsheetDocumentCellPosition, value: SpreadsheetDocumentCell) { }
+    // WIP set value and style for all at once
+    getCells(from: SpreadsheetDocumentCellPosition, to?: SpreadsheetDocumentCellPosition): SpreadsheetDocumentCell[] {
+        if (from) {
+            if (!to) {
+                let ranges = from.toString().split(":");
+                from = ranges[0];
+                to = ranges[1];
+            }
+            let fromCell = getCellPosition(from);
+            let toCell = getCellPosition(to);
+            
+            let cells: SpreadsheetDocumentCell[] = []
+            for (let row = fromCell.row; row <= toCell.row; row++) {
+                for (let col = fromCell.col; col <= toCell.col; col++) {
+                    cells.push(this.getCell({ col, row }))
+                }
+            }
+
+            return cells;
+        } else {
+            return undefined;
+        }
+    }
+    
+    setCells(pos: SpreadsheetDocumentCellPosition, value: SpreadsheetDocumentCell): void
+    setCells(from: SpreadsheetDocumentCellPosition, to: SpreadsheetDocumentCellPosition, value: SpreadsheetDocumentCell): void
+    setCells(from: SpreadsheetDocumentCellPosition, to: SpreadsheetDocumentCellPosition | SpreadsheetDocumentCell, value?: SpreadsheetDocumentCell) {
+        if (from) {
+            if (typeof(from) == "string" && from.includes(":")) {
+                let ranges = from.toString().split(":");
+
+                value = to as SpreadsheetDocumentCell;
+                from = ranges[0];
+                to = ranges[1];
+            }
+            let fromCell = getCellPosition(from);
+            let toCell = getCellPosition(to);
+            
+            for (let row = fromCell.row; row <= toCell.row; row++) {
+                for (let col = fromCell.col; col <= toCell.col; col++) {
+                    this.setCell({ col, row }, value)
+                }
+            }
+        }
+    }
 
     freezeAt(before: SpreadsheetDocumentCellPosition): boolean {
         if (before) {
@@ -150,10 +201,14 @@ export class SpreadsheetDocumentCell {
     _value: SpreadsheetDocumentCellValueType;
     _style: SpreadsheetDocumentStyle;
 
-    constructor(col: number = null, row: number = null) {
+    constructor(col: number = null, row: number = null, value?: SpreadsheetDocumentCell) {
         this.type = "string";
         this.col = col;
         this.row = row;
+        if (value) {
+            this.value = value.value ?? this.value;
+            this.style = value.style ?? this.style;
+        }
     }
 
     get value(): SpreadsheetDocumentCellValueType { return this._value; }

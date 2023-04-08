@@ -7,12 +7,14 @@ type CSpreadsheetDocumentCell = SpreadsheetDocumentCell & { style: CSpreadsheetD
 type CSpreadsheetDocumentStyle = SpreadsheetDocumentStyle & { _name: string, _type: string, _target: number, _stringified: string }
 
 function escapeXML(value: any): string {
-    value = value.toString();
-    value = value.replaceAll("&", "&amp;");
-    value = value.replaceAll("'", "&apos;");
-    value = value.replaceAll("\"", "&quot;");
-    value = value.replaceAll(">", "&gt;");
-    value = value.replaceAll("<", "&lt;");
+    if (value) {
+        value = value.toString();
+        value = value.replaceAll("&", "&amp;");
+        value = value.replaceAll("'", "&apos;");
+        value = value.replaceAll("\"", "&quot;");
+        value = value.replaceAll(">", "&gt;");
+        value = value.replaceAll("<", "&lt;");
+    }
     return value;
 }
 
@@ -262,9 +264,9 @@ function spreadsheetCell(cell: CSpreadsheetDocumentCell): string {
     if (cell.value instanceof Date) {
         cellString += `office:date-value="${dateToString(cell.value)}">`
     } else {
-        cellString += `office:value="${escapeXML(cell.value)}">`
+        cellString += `office:value="${escapeXML(cell.value) || ""}">`
     }
-    cellString += `<text:p>${escapeXML(cell.value.toString())}</text:p>`
+    cellString += `<text:p>${escapeXML(cell.value?.toString()) || ""}</text:p>`
     cellString += "</table:table-cell>"
     return cellString;
 }

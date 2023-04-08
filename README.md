@@ -74,6 +74,7 @@ sheet.title = "first";
 ```
 
 ### working with cells
+single cell
 ```js
 // get cell
 var cell = sheet.getCell("A1")
@@ -93,6 +94,23 @@ cell.style.underlineColor = "#000000";
 cell.style.color = "#ffffff";
 cell.style.columnWidth = 20;
 cell.style.rowHeight = 10;
+
+// at once
+sheet.setCell("A1", {
+  value: "test",
+  style: {
+    bold: true,
+    underline: "dash"
+  }
+})
+```
+multiple cells
+```js
+// get cells content
+var content = sheet.getCells("A1:B3").map(c => c.value)
+
+// set cells
+sheet.setCells("A1:B3", { backgroundColor: "#ff0000" })
 ```
 
 ### specials
