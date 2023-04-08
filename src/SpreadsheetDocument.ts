@@ -91,11 +91,17 @@ export class SpreadsheetDocumentSheet {
             return undefined;
         }
     }
+
+    // WIP
+    setCell(pos: SpreadsheetDocumentCellPosition, value: SpreadsheetDocumentCell) { }
     
-    /**@deprecated WIP */
-    getCells(pos: SpreadsheetDocumentCellPosition): SpreadsheetDocumentCell {
+    // WIP
+    getCells(pos: SpreadsheetDocumentCellPosition): SpreadsheetDocumentCell[] {
         return null;
     }
+    
+    // WIP
+    setCells(pos: SpreadsheetDocumentCellPosition, value: SpreadsheetDocumentCell) { }
 
     freezeAt(before: SpreadsheetDocumentCellPosition): boolean {
         if (before) {
@@ -118,7 +124,7 @@ export class SpreadsheetDocumentSheet {
             let fromCell = getCellPosition(from);
             let toCell = getCellPosition(to);
 
-            this._databases = []; // WIP
+            this._databases = []; // it can only exists one autofilter per sheet
             this._databases.push({
                 range: {
                     from: fromCell,
@@ -173,12 +179,25 @@ export class SpreadsheetDocumentCell {
         return this._style;
     }
     set style(value) {
-        throw "WIP";
+        this._style = new SpreadsheetDocumentStyle(value)
     }
 }
 
 type SpreadsheetDocumentStyleUnderline = "none" | "solid" | "wave" | "dotted" | "dash" | "long-dash" | "dot-dash" | "dot-dot-dash"; // WIP: "bold", "double"
 export class SpreadsheetDocumentStyle {
+    constructor(value?: SpreadsheetDocumentStyle) {
+        if (value) {
+            this.bold = value.bold ?? this.bold;
+            this.italic = value.italic ?? this.italic;
+            this.underline = value.underline ?? this.underline;
+            this.underlineColor = value.underlineColor ?? this.underlineColor;
+            this.color = value.color ?? this.color;
+            this.backgroundColor = value.backgroundColor ?? this.backgroundColor;
+            this.columnWidth = value.columnWidth ?? this.columnWidth;
+            this.rowHeight = value.rowHeight ?? this.rowHeight;
+        }
+    }
+
     bold = false;
     italic = false;
     underline: SpreadsheetDocumentStyleUnderline = "none";
