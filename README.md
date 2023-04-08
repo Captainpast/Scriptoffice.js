@@ -65,7 +65,7 @@ var sheet = doc.activeSheet;
 var sheet = doc.addSheet("first");
 
 // get sheet by index
-var sheet = doc.getSheet(i);
+var sheet = doc.getSheet(1);
 // get sheet by name 
 var sheet = doc.getSheet("first");
 
@@ -102,7 +102,6 @@ sheet.autoFilter("A1", "K9")
 ```
 
 # Roadmap
-- style merging
 - csv export
 - xlsx export
 - html export

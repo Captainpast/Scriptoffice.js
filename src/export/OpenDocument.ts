@@ -4,7 +4,7 @@ import { getCellName, SpreadsheetDocument, SpreadsheetDocumentCell, SpreadsheetD
 
 type CSpreadsheetDocument = SpreadsheetDocument & { _styles: CSpreadsheetDocumentStyle[] }
 type CSpreadsheetDocumentCell = SpreadsheetDocumentCell & { style: CSpreadsheetDocumentStyle }
-type CSpreadsheetDocumentStyle = SpreadsheetDocumentStyle & { _name: string, _type: string, _target: number }
+type CSpreadsheetDocumentStyle = SpreadsheetDocumentStyle & { _name: string, _type: string, _target: number, _stringified: string }
 
 function escapeXML(value: any): string {
     value = value.toString();
@@ -86,32 +86,62 @@ function spreadsheetMergeStyles(doc: CSpreadsheetDocument) {
             const cell = doc.sheets[i].cells[j]
             if (cell._style) {
                 let style = cell.style as CSpreadsheetDocumentStyle;
-                style._name = "ce" + doc._styles.length;
-                style._type = "table-cell";
+                style._stringified = JSON.stringify(style, spreadsheetMergeStylesJsonReplacer)
 
+                let sameStyle = doc._styles.find(s => s._stringified == style._stringified);
+                if (sameStyle) {
+                    cell._style = sameStyle;
+                } else {
+                    style._name = "ce" + doc._styles.length;
+                    style._type = "table-cell";
+                    doc._styles.push(style)
+                }
+
+                // adding style for column and row
                 if (style.columnWidth) {
-                    let cStyle = new SpreadsheetDocumentStyle() as CSpreadsheetDocumentStyle;
-                    cStyle._name = "co" + doc._styles.length;
-                    cStyle._type = "table-column";
-                    cStyle._target = cell.col;
-                    cStyle.columnWidth = style.columnWidth;
+                    let sameStyle = doc._styles.find(s => s._type == "table-column" && s._target == cell.col);
+                    if (sameStyle) {
+                        // adust columnWidth to the lager value
+                        if (style.columnWidth > sameStyle.columnWidth) {
+                            sameStyle.columnWidth = style.columnWidth;
+                        }
+                    } else {
+                        let newStyle = new SpreadsheetDocumentStyle() as CSpreadsheetDocumentStyle;
+                        newStyle._name = "co" + doc._styles.length;
+                        newStyle._type = "table-column";
+                        newStyle._target = cell.col;
+                        newStyle.columnWidth = style.columnWidth;
+                        doc._styles.push(newStyle)
+                    }
                     delete style.columnWidth;
-                    doc._styles.push(cStyle)
                 }
                 if (style.rowHeight) {
-                    let rStyle = new SpreadsheetDocumentStyle() as CSpreadsheetDocumentStyle;
-                    rStyle._name = "ro" + doc._styles.length;
-                    rStyle._type = "table-row";
-                    rStyle._target = cell.row;
-                    rStyle.rowHeight = style.rowHeight;
+                    let sameStyle = doc._styles.find(s => s._type == "table-row" && s._target == cell.row);
+                    if (sameStyle) {
+                        // adust rowHeight to the lager value
+                        if (style.rowHeight > sameStyle.rowHeight) {
+                            sameStyle.rowHeight = style.rowHeight;
+                        }
+                    } else {
+                        let newStyle = new SpreadsheetDocumentStyle() as CSpreadsheetDocumentStyle;
+                        newStyle._name = "ro" + doc._styles.length;
+                        newStyle._type = "table-row";
+                        newStyle._target = cell.row;
+                        newStyle.rowHeight = style.rowHeight;
+                        doc._styles.push(newStyle)
+                    }
                     delete style.rowHeight;
-                    doc._styles.push(rStyle)
                 }
-
-                doc._styles.push(style)
             }
         }
     }
+}
+function spreadsheetMergeStylesJsonReplacer(key: string, value: any) {
+    const exclude = [ "columnWidth", "rowHeight" ]
+    if (key.startsWith("_") || exclude.includes(key)) {
+        return undefined;
+    }
+    return value;
 }
 
 function spreadsheetCellStyle(style: CSpreadsheetDocumentStyle): string {
