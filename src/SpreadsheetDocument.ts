@@ -92,7 +92,8 @@ export class SpreadsheetDocumentSheet {
         }
     }
 
-    setCell(pos: SpreadsheetDocumentCellPosition, value: SpreadsheetDocumentCell) {
+    // WIP overwrite or merge
+    setCell(pos: SpreadsheetDocumentCellPosition, value: SpreadsheetDocumentCell, overwrite?: boolean) {
         let {col, row} = getCellPosition(pos);
         
         if (col != null && row != null) {

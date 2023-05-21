@@ -3,10 +3,9 @@ import { fileURLToPath } from "url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-export default {
+export default (env, argv) => { return {
   entry: "./src/index.ts",
-  //devtool: "inline-source-map",
-  devtool: "source-map",
+  devtool: argv.mode == "development"? "source-map" : undefined,
   module: {
     rules: [ { test: /\.ts$/, use: "ts-loader" }, ],
   },
@@ -16,9 +15,10 @@ export default {
     filename: "script-office.min.js",
     library: "OfficeDocument",
     libraryTarget: "umd",
-    globalObject: "globalThis"
+    globalObject: "globalThis",
+    clean: true
   },
   watchOptions: {
     ignored: "**/node_modules",
-  },
-};
+  }
+}};

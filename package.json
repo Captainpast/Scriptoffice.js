@@ -1,16 +1,25 @@
 {
   "name": "script-office",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "a library to create files of an office software suite like LibreOffice programmcity and automated",
   "main": "index.js",
   "scripts": {
     "test": "node test/test.js",
+    "watch": "webpack watch --mode=development",
     "dist": "webpack --mode=production",
-    "watch": "webpack watch --mode=production"
+    "publish": "webpack --mode=production && npm publish"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://gitlab.com/Captainpast/scriptoffice.js.git"
   },
   "type": "module",
   "author": "captainpast",
   "license": "MIT",
+  "bugs": {
+    "url": "https://gitlab.com/Captainpast/scriptoffice.js/-/issues"
+  },
+  "homepage": "https://gitlab.com/Captainpast/scriptoffice.js/-/blob/main/README.md",
   "devDependencies": {
     "ts-loader": "^9.2.7",
     "typescript": "^4.6.2",

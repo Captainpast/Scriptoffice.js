@@ -1,7 +1,7 @@
 _scriptOffice for JavaScript_
 
 <div align="center">
-  <img src="./logo.svg" alt="scriptOffice.js">
+  <img src="https://gitlab.com/Captainpast/scriptoffice.js/-/raw/main/logo.svg" alt="scriptOffice.js">
 </div>
 
 a library to create files of an office software suite like [LibreOffice](https://www.libreoffice.org/) programmcity and automated
@@ -9,7 +9,13 @@ a library to create files of an office software suite like [LibreOffice](https:/
 # Using
 
 ## NPM / YARN / PNPM
-currently not available
+```bash
+$ npm i script-office
+or
+$ yarn add script-office
+or
+$ pnpm add script-office
+```
 
 ## CDN
 currently not available
@@ -17,14 +23,14 @@ currently not available
 ## Build with webpack
 
 cloning git repo and install dependencies
-```
+```bash
 $ git clone https://gitlab.com/Captainpast/scriptoffice.js
 $ cd scriptoffice.js
 $ npm install
 ```
 
 run `dist` script to create a minified and compact version
-```
+```bash
 $ npm run dist
 ```
 The release is now in the `./dist` folder and can be imported.
