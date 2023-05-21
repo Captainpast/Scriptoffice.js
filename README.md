@@ -9,38 +9,21 @@ a library to create files of an office software suite like [LibreOffice](https:/
 # Using
 
 ## NPM / YARN / PNPM
+run one of the command in your nodejs project
 ```bash
 $ npm i script-office
-or
 $ yarn add script-office
-or
 $ pnpm add script-office
+```
+add to file
+```js
+import { OfficeDocument } from "script-office";
 ```
 
 ## CDN
-currently not available
-
-## Build with webpack
-
-cloning git repo and install dependencies
-```bash
-$ git clone https://gitlab.com/Captainpast/scriptoffice.js
-$ cd scriptoffice.js
-$ npm install
-```
-
-run `dist` script to create a minified and compact version
-```bash
-$ npm run dist
-```
-The release is now in the `./dist` folder and can be imported.
-
-```js
-import { OfficeDocument } from "./dist/script-office.min.js";
-```
-or
+add o html head
 ```html
-<script src="./dist/script-office.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/script-office/dist/script-office.min.js"></script>
 ```
 
 # Documentation
@@ -120,9 +103,39 @@ sheet.setCells("A1:B3", { backgroundColor: "#ff0000" })
 ```
 
 ### specials
-``` js
+```js
 sheet.freezeAt("A1")
 sheet.autoFilter("A1", "K9")
+```
+
+### export
+```js
+var data = await doc.export("ods");
+fs.writeFileSync(path.join(__dirname, "test.ods"), Buffer.from(data))
+```
+
+
+## Build with webpack
+
+cloning git repo and install dependencies
+```bash
+$ git clone https://gitlab.com/Captainpast/scriptoffice.js
+$ cd scriptoffice.js
+$ npm install
+```
+
+run `dist` script to create a minified and compact version
+```bash
+$ npm run dist
+```
+The release is now in the `./dist` folder and can be imported.
+
+```js
+import { OfficeDocument } from "./dist/script-office.min.js";
+```
+or
+```html
+<script src="./dist/script-office.min.js"></script>
 ```
 
 # Roadmap
