@@ -2,7 +2,7 @@ import * as OpenDocument from "./export/OpenDocument";
 import { OfficeDocument } from "./OfficeDocument"
 
 interface SpreadsheetDocumentExportTypes {
-    "ods": ArrayBuffer;
+    "ods": [ ArrayBuffer, OpenDocument.SpreadsheetOptions ];
 }
 
 export class SpreadsheetDocument extends OfficeDocument {
@@ -51,9 +51,9 @@ export class SpreadsheetDocument extends OfficeDocument {
         return sheet;
     }
 
-    async export<T extends keyof SpreadsheetDocumentExportTypes>(format: T): Promise<SpreadsheetDocumentExportTypes[T]> {
+    async export<T extends keyof SpreadsheetDocumentExportTypes>(format: T, options?: SpreadsheetDocumentExportTypes[T][1]): Promise<SpreadsheetDocumentExportTypes[T][0]> {
         if (format == "ods") {
-            return await OpenDocument.spreadsheet(this as any);
+            return await OpenDocument.spreadsheet(this as any, options);
         } else {
             throw "not implemented"
         }
@@ -165,7 +165,7 @@ export class SpreadsheetDocumentSheet {
         }
     }
 
-    //autoFilter(range: string): boolean;
+    autoFilter(range: string): boolean;
     autoFilter(from: SpreadsheetDocumentCellPosition, to?: SpreadsheetDocumentCellPosition): boolean {
         if (from) {
             if (!to) {

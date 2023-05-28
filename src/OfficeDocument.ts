@@ -24,7 +24,7 @@ export class OfficeDocument {
         this.creationDate = new Date();
     }
 
-    async export(format: string): Promise<any> {
+    async export(format: string, options?: object): Promise<any> {
         throw "not implemented"
     }
 }

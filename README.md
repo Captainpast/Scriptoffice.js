@@ -21,7 +21,7 @@ import { OfficeDocument } from "script-office";
 ```
 
 ## CDN
-add o html head
+add to html head
 ```html
 <script src="https://cdn.jsdelivr.net/npm/script-office/dist/script-office.min.js"></script>
 ```

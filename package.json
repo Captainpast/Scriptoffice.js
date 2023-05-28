@@ -20,6 +20,7 @@
     "url": "https://gitlab.com/Captainpast/scriptoffice.js/-/issues"
   },
   "homepage": "https://gitlab.com/Captainpast/scriptoffice.js/-/blob/main/README.md",
+  "keywords": [ "JavaScript", "library", "office", "LibreOffice", "automation" ],
   "devDependencies": {
     "ts-loader": "^9.2.7",
     "typescript": "^4.6.2",

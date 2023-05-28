@@ -6,6 +6,10 @@ type CSpreadsheetDocument = SpreadsheetDocument & { _styles: CSpreadsheetDocumen
 type CSpreadsheetDocumentCell = SpreadsheetDocumentCell & { style: CSpreadsheetDocumentStyle }
 type CSpreadsheetDocumentStyle = SpreadsheetDocumentStyle & { _name: string, _type: string, _target: number, _stringified: string }
 
+export interface SpreadsheetOptions {
+    compressionLevel: number
+}
+
 function escapeXML(value: any): string {
     if (value) {
         value = value.toString();
@@ -47,7 +51,7 @@ function create(mimetype: string, doc: OfficeDocument): JSZip {
     return zip;
 }
 
-export async function spreadsheet(doc: CSpreadsheetDocument): Promise<ArrayBuffer> {
+export async function spreadsheet(doc: CSpreadsheetDocument, options: SpreadsheetOptions): Promise<ArrayBuffer> {
     var zip = create("application/vnd.oasis.opendocument.spreadsheet", doc)
 
     spreadsheetMergeStyles(doc);
@@ -77,7 +81,7 @@ export async function spreadsheet(doc: CSpreadsheetDocument): Promise<ArrayBuffe
         platform: "UNIX",
         //mimeType: "application/ods",
         compression: "DEFLATE",
-        compressionOptions: { level: 9 } })
+        compressionOptions: { level: options?.compressionLevel || 9 } })
     return file;
 }
 
