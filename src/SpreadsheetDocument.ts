@@ -189,6 +189,39 @@ export class SpreadsheetDocumentSheet {
             return false;
         }
     }
+
+    convertToArray(from?: SpreadsheetDocumentCellPosition, to?: SpreadsheetDocumentCellPosition): SpreadsheetDocumentCellValueType[][] {
+        let fromCell = { col: 0, row: 0 };
+        let toCell = { col: 0, row: 0 };
+        if (from) {
+            if (!to) {
+                let ranges = from.toString().split(":");
+                from = ranges[0];
+                to = ranges[1];
+            }
+            fromCell = getCellPosition(from);
+            toCell = getCellPosition(to);
+        } else { // auto detect document range
+            let sortedCells = [...this.cells].sort(function(a, b) {
+                let div = a.row - b.row;
+                if (div == 0) div = a.col - b.col;
+                return div;
+            })
+            fromCell = sortedCells.at(0)
+            toCell = sortedCells.at(-1)
+        }
+        
+        let result: SpreadsheetDocumentCellValueType[][] = [];
+        for (let row = fromCell.row; row <= toCell.row; row++) {
+            let rowResult: SpreadsheetDocumentCellValueType[] = [];
+            result.push(rowResult)
+
+            for (let col = fromCell.col; col <= toCell.col; col++) {
+                rowResult.push(this.getCell({ col, row }).value)
+            }
+        }
+        return result;
+    }
 }
 
 type SpreadsheetDocumentCellType = "string" | "float" | "percentage" | "currency" | "date";
