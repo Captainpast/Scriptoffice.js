@@ -1,8 +1,10 @@
 import * as OpenDocument from "./export/OpenDocument";
+import * as Basic from "./export/Basic";
 import { OfficeDocument } from "./OfficeDocument"
 
 interface SpreadsheetDocumentExportTypes {
     "ods": [ ArrayBuffer, OpenDocument.SpreadsheetOptions ];
+    "csv": [ string, Basic.SpreadsheetCsvOptions ];
 }
 
 export class SpreadsheetDocument extends OfficeDocument {
@@ -53,7 +55,9 @@ export class SpreadsheetDocument extends OfficeDocument {
 
     async export<T extends keyof SpreadsheetDocumentExportTypes>(format: T, options?: SpreadsheetDocumentExportTypes[T][1]): Promise<SpreadsheetDocumentExportTypes[T][0]> {
         if (format == "ods") {
-            return await OpenDocument.spreadsheet(this as any, options);
+            return await OpenDocument.spreadsheet(this as any, options as any);
+        } else if (format == "csv") {
+            return Basic.spreadsheetToCSV(this as any, options as any);
         } else {
             throw "not implemented"
         }
