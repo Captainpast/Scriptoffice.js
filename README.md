@@ -99,7 +99,7 @@ multiple cells
 var content = sheet.getCells("A1:B3").map(c => c.value)
 
 // set cells
-sheet.setCells("A1:B3", { backgroundColor: "#ff0000" })
+sheet.setCells("A1:B3", { style: { backgroundColor: "#ff0000" } })
 ```
 
 ### specials
@@ -109,9 +109,25 @@ sheet.autoFilter("A1", "K9")
 ```
 
 ### export
+there a several export formats:
+
+#### OpenDocument spreadsheet
 ```js
-var data = await doc.export("ods");
+var data = await doc.export("ods", {
+    compressionLevel: 9
+  });
 fs.writeFileSync(path.join(__dirname, "test.ods"), Buffer.from(data))
+```
+
+#### Comma-separated values
+only one sheet of the SpreadsheetDocument can be exported
+```js
+var data = await doc.export("csv", {
+    separator: ";",
+    useQuotes: true,
+    sheet: "name or index of the sheet"
+});
+fs.writeFileSync(path.join(__dirname, "test.csv"), data)
 ```
 
 
@@ -139,7 +155,6 @@ or
 ```
 
 # Roadmap
-- csv export
 - xlsx export
 - html export
 - HTML color code names
