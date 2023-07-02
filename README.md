@@ -79,8 +79,9 @@ cell.value = new Date();
 cell.style.bold = true;
 cell.style.italic = true;
 cell.style.underline = "solid";
-cell.style.underlineColor = "#000000";
-cell.style.color = "#ffffff";
+cell.style.underlineColor = "#ff0000";
+cell.style.color = "reb(255,0,0)";
+cell.style.backgroundColor = "red";
 cell.style.columnWidth = 20;
 cell.style.rowHeight = 10;
 
@@ -157,6 +158,5 @@ or
 # Roadmap
 - xlsx export
 - html export
-- HTML color code names
 - imports
 - texts, drawings, presentations

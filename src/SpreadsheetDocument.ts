@@ -1,5 +1,6 @@
 import * as OpenDocument from "./export/OpenDocument";
 import * as Basic from "./export/Basic";
+import * as Color from "color";
 import { OfficeDocument } from "./OfficeDocument"
 
 interface SpreadsheetDocumentExportTypes {
@@ -294,12 +295,38 @@ export class SpreadsheetDocumentStyle {
     bold = false;
     italic = false;
     underline: SpreadsheetDocumentStyleUnderline = "none";
+    // WIP: strike and overline
+
     /**the text underline color hex code, like `#ffffff` or default the **font-color***/
-    underlineColor: "font-color" | string = "font-color";
+    get underlineColor() { return this._underlineColor }
+    set underlineColor(value: "font-color" | string | Color) {
+        if (typeof(value) == "string") {
+            if (value == "font-color") {
+                this._underlineColor = value;
+            } else {
+                this._underlineColor = Color(value).hex();
+            }
+        } else {
+            this._underlineColor = value.hex();
+        }
+    }
+    private _underlineColor: string = "font-color";
+
     /**the text color hex code, like `#ffffff`*/
-    color: string;
+    get color() { return this._color }
+    set color(value: string | Color) {
+        let colorValue = typeof(value) == "string"? Color(value) : value
+        this._color = colorValue?.hex()
+    }
+    private _color: string;
+
     /**the cell background color hex code, like `#ffffff`*/
-    backgroundColor: string;
+    get backgroundColor() { return this._backgroundColor }
+    set backgroundColor(value: string | Color) {
+        let colorValue = typeof(value) == "string"? Color(value) : value
+        this._backgroundColor = colorValue?.hex()
+    }
+    private _backgroundColor: string;
 
     /**the  width of all cells in the column*/
     columnWidth: number;

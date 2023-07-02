@@ -144,7 +144,7 @@ function spreadsheetMergeStyles(doc: CSpreadsheetDocument) {
 }
 function spreadsheetMergeStylesJsonReplacer(key: string, value: any) {
     const exclude = [ "columnWidth", "rowHeight" ]
-    if (key.startsWith("_") || exclude.includes(key)) {
+    if (exclude.includes(key)) {
         return undefined;
     }
     return value;
