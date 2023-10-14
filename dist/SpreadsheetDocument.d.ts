@@ -1,6 +1,11 @@
+import * as OpenDocument from "./export/OpenDocument";
+import * as Basic from "./export/Basic";
+import * as Color from "color";
 import { OfficeDocument } from "./OfficeDocument";
 interface SpreadsheetDocumentExportTypes {
-    "ods": ArrayBuffer;
+    "ods": [ArrayBuffer, OpenDocument.SpreadsheetOptions];
+    "csv": [string, Basic.SpreadsheetCsvOptions];
+    "xlsx": [ArrayBuffer, OpenDocument.SpreadsheetOptions];
 }
 export declare class SpreadsheetDocument extends OfficeDocument {
     sheets: SpreadsheetDocumentSheet[];
@@ -9,7 +14,7 @@ export declare class SpreadsheetDocument extends OfficeDocument {
     get activeSheet(): SpreadsheetDocumentSheet;
     getSheet(identifier: number | string): SpreadsheetDocumentSheet;
     addSheet(title: string): SpreadsheetDocumentSheet;
-    export<T extends keyof SpreadsheetDocumentExportTypes>(format: T): Promise<SpreadsheetDocumentExportTypes[T]>;
+    export<T extends keyof SpreadsheetDocumentExportTypes>(format: T, options?: SpreadsheetDocumentExportTypes[T][1]): Promise<SpreadsheetDocumentExportTypes[T][0]>;
 }
 export declare class SpreadsheetDocumentSheet {
     parentDocument: SpreadsheetDocument;
@@ -38,7 +43,8 @@ export declare class SpreadsheetDocumentSheet {
     setCells(pos: SpreadsheetDocumentCellPosition, value: SpreadsheetDocumentCell): void;
     setCells(from: SpreadsheetDocumentCellPosition, to: SpreadsheetDocumentCellPosition, value: SpreadsheetDocumentCell): void;
     freezeAt(before: SpreadsheetDocumentCellPosition): boolean;
-    autoFilter(from: SpreadsheetDocumentCellPosition, to?: SpreadsheetDocumentCellPosition): boolean;
+    autoFilter(range: string): boolean;
+    convertToArray(from?: SpreadsheetDocumentCellPosition, to?: SpreadsheetDocumentCellPosition): SpreadsheetDocumentCellValueType[][];
 }
 declare type SpreadsheetDocumentCellType = "string" | "float" | "percentage" | "currency" | "date";
 declare type SpreadsheetDocumentCellValueType = String | Number | Date;
@@ -62,11 +68,17 @@ export declare class SpreadsheetDocumentStyle {
     italic: boolean;
     underline: SpreadsheetDocumentStyleUnderline;
     /**the text underline color hex code, like `#ffffff` or default the **font-color***/
-    underlineColor: "font-color" | string;
+    get underlineColor(): "font-color" | string | Color;
+    set underlineColor(value: "font-color" | string | Color);
+    private _underlineColor;
     /**the text color hex code, like `#ffffff`*/
-    color: string;
+    get color(): string | Color;
+    set color(value: string | Color);
+    private _color;
     /**the cell background color hex code, like `#ffffff`*/
-    backgroundColor: string;
+    get backgroundColor(): string | Color;
+    set backgroundColor(value: string | Color);
+    private _backgroundColor;
     /**the  width of all cells in the column*/
     columnWidth: number;
     /**the  height of all cells in the row*/

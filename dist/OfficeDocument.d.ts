@@ -18,5 +18,5 @@ export declare class OfficeDocument {
     /**the last date where the document was edited*/
     date: Date;
     constructor();
-    export(format: string): Promise<any>;
+    export(format: string, options?: object): Promise<any>;
 }

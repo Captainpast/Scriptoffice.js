@@ -1,6 +1,6 @@
 {
   "name": "script-office",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "a library to create files of an office software suite like LibreOffice programmcity and automated",
   "main": "index.js",
   "scripts": {

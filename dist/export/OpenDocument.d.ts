@@ -8,5 +8,10 @@ declare type CSpreadsheetDocumentStyle = SpreadsheetDocumentStyle & {
     _target: number;
     _stringified: string;
 };
-export declare function spreadsheet(doc: CSpreadsheetDocument): Promise<ArrayBuffer>;
+export interface SpreadsheetOptions {
+    compressionLevel: number;
+}
+export declare function escapeXML(value: any): string;
+export declare function dateToString(date: Date): string;
+export declare function spreadsheet(doc: CSpreadsheetDocument, options: SpreadsheetOptions): Promise<ArrayBuffer>;
 export {};

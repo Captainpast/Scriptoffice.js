@@ -1,11 +1,13 @@
 import * as OpenDocument from "./export/OpenDocument";
 import * as Basic from "./export/Basic";
+import * as OfficeOpen from "./export/OfficeOpen";
 import * as Color from "color";
 import { OfficeDocument } from "./OfficeDocument"
 
 interface SpreadsheetDocumentExportTypes {
     "ods": [ ArrayBuffer, OpenDocument.SpreadsheetOptions ];
     "csv": [ string, Basic.SpreadsheetCsvOptions ];
+    "xlsx": [ ArrayBuffer, OpenDocument.SpreadsheetOptions ];
 }
 
 export class SpreadsheetDocument extends OfficeDocument {
@@ -59,6 +61,8 @@ export class SpreadsheetDocument extends OfficeDocument {
             return await OpenDocument.spreadsheet(this as any, options as any);
         } else if (format == "csv") {
             return Basic.spreadsheetToCSV(this as any, options as any);
+        } else if (format == "xlsx") {
+            return OfficeOpen.spreadsheet(this as any, options as any)
         } else {
             throw "not implemented"
         }

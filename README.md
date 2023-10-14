@@ -112,15 +112,15 @@ sheet.autoFilter("A1", "K9")
 ### export
 there a several export formats:
 
-#### OpenDocument spreadsheet
+#### OpenDocument spreadsheet (ods)
 ```js
 var data = await doc.export("ods", {
     compressionLevel: 9
-  });
+});
 fs.writeFileSync(path.join(__dirname, "test.ods"), Buffer.from(data))
 ```
 
-#### Comma-separated values
+#### Comma-separated values (csv)
 only one sheet of the SpreadsheetDocument can be exported
 ```js
 var data = await doc.export("csv", {
@@ -129,6 +129,15 @@ var data = await doc.export("csv", {
     sheet: "name or index of the sheet"
 });
 fs.writeFileSync(path.join(__dirname, "test.csv"), data)
+```
+
+#### OfficeOpen spreadsheet (xlsx)
+the export is very basic and not supports styles
+```js
+var data = await doc.export("xlsx", {
+    compressionLevel: 9
+});
+fs.writeFileSync(path.join(__dirname, "test.xlsx"), Buffer.from(data))
 ```
 
 
@@ -156,7 +165,6 @@ or
 ```
 
 # Roadmap
-- xlsx export
 - html export
 - imports
 - texts, drawings, presentations

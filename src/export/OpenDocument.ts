@@ -10,7 +10,7 @@ export interface SpreadsheetOptions {
     compressionLevel: number
 }
 
-function escapeXML(value: any): string {
+export function escapeXML(value: any): string {
     if (value) {
         value = value.toString();
         value = value.replaceAll("&", "&amp;");
@@ -22,9 +22,9 @@ function escapeXML(value: any): string {
     return value;
 }
 
-function dateToString(date: Date): string {
-    let str = date.toISOString()
-    str = str.split(".")[0]
+export function dateToString(date: Date): string {
+    let str = date?.toISOString()
+    str = str?.split(".")[0]
     return str;
 }
 
@@ -79,7 +79,7 @@ export async function spreadsheet(doc: CSpreadsheetDocument, options: Spreadshee
     var file = await zip.generateAsync({
         type: "arraybuffer",
         platform: "UNIX",
-        //mimeType: "application/ods",
+        mimeType: "application/vnd.oasis.opendocument.spreadsheet",
         compression: "DEFLATE",
         compressionOptions: { level: options?.compressionLevel || 9 } })
     return file;
