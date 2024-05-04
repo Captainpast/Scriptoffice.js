@@ -308,7 +308,7 @@ export class SpreadsheetDocumentStyle {
             if (value == "font-color") {
                 this._underlineColor = value;
             } else {
-                this._underlineColor = Color(value).hex();
+                this._underlineColor = Color.rgb(value).hex();
             }
         } else {
             this._underlineColor = value.hex();
@@ -319,7 +319,7 @@ export class SpreadsheetDocumentStyle {
     /**the text color hex code, like `#ffffff`*/
     get color() { return this._color }
     set color(value: string | Color | undefined) {
-        let colorValue = typeof(value) == "string"? Color(value) : value
+        let colorValue = typeof(value) == "string"? Color.rgb(value): value
         this._color = colorValue?.hex()
     }
     private _color: string;
@@ -327,7 +327,7 @@ export class SpreadsheetDocumentStyle {
     /**the cell background color hex code, like `#ffffff`*/
     get backgroundColor() { return this._backgroundColor }
     set backgroundColor(value: string | Color | undefined) {
-        let colorValue = typeof(value) == "string"? Color(value) : value
+        let colorValue = typeof(value) == "string"? Color.rgb(value) : value
         this._backgroundColor = colorValue?.hex()
     }
     private _backgroundColor: string;

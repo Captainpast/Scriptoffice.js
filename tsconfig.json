@@ -2,8 +2,8 @@
     "compilerOptions": {
         "outDir": "./dist",
         "noImplicitAny": true,
-        "module": "es6",
-        "sourceMap": true,
+        "module": "ES6",
+        "lib": ["ESNext", "DOM"],
         "allowJs": true,
         "moduleResolution": "node",
         "target": "ES2018",
