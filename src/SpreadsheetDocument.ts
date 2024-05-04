@@ -296,14 +296,14 @@ export class SpreadsheetDocumentStyle {
         }
     }
 
-    bold = false;
-    italic = false;
-    underline: SpreadsheetDocumentStyleUnderline = "none";
+    bold? = false;
+    italic? = false;
+    underline?: SpreadsheetDocumentStyleUnderline = "none";
     // WIP: strike and overline
 
     /**the text underline color hex code, like `#ffffff` or default the **font-color***/
     get underlineColor() { return this._underlineColor }
-    set underlineColor(value: "font-color" | string | Color) {
+    set underlineColor(value: "font-color" | string | Color | undefined) {
         if (typeof(value) == "string") {
             if (value == "font-color") {
                 this._underlineColor = value;
@@ -318,7 +318,7 @@ export class SpreadsheetDocumentStyle {
 
     /**the text color hex code, like `#ffffff`*/
     get color() { return this._color }
-    set color(value: string | Color) {
+    set color(value: string | Color | undefined) {
         let colorValue = typeof(value) == "string"? Color(value) : value
         this._color = colorValue?.hex()
     }
@@ -326,16 +326,16 @@ export class SpreadsheetDocumentStyle {
 
     /**the cell background color hex code, like `#ffffff`*/
     get backgroundColor() { return this._backgroundColor }
-    set backgroundColor(value: string | Color) {
+    set backgroundColor(value: string | Color | undefined) {
         let colorValue = typeof(value) == "string"? Color(value) : value
         this._backgroundColor = colorValue?.hex()
     }
     private _backgroundColor: string;
 
     /**the  width of all cells in the column*/
-    columnWidth: number;
+    columnWidth?: number;
     /**the  height of all cells in the row*/
-    rowHeight: number;
+    rowHeight?: number;
 }
 
 

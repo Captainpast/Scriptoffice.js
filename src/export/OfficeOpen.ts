@@ -50,7 +50,17 @@ export async function spreadsheet(doc: CSpreadsheetDocument, options: Spreadshee
         }</sheets>
     </workbook>`)
 
-    zip.file("xl/styles.xml", `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"></styleSheet>`)
+    zip.file("xl/styles.xml", `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+    <styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">
+        <numFmts count="2">
+            <numFmt numFmtId="164" formatCode="General"/>
+            <numFmt numFmtId="165" formatCode="dd/mm/yyyy\\ hh:mm"/>
+        </numFmts>
+        <cellXfs count="2">
+            <xf numFmtId="164"></xf>
+            <xf numFmtId="165"></xf>
+        </cellXfs>
+    </styleSheet>`)
 
     zip.file("xl/_rels/workbook.xml.rels", `<?xml version="1.0" encoding="UTF-8"?>
     <Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
@@ -80,6 +90,10 @@ export async function spreadsheet(doc: CSpreadsheetDocument, options: Spreadshee
         compressionOptions: { level: options?.compressionLevel || 9 } })
     return file;
 }
+
+const T_1899_12_30 = -2209161600000
+const T_HOUR = 3600000
+const T_DAY = 86400000
 
 function spreadsheetSheet(sheet: SpreadsheetDocumentSheet, doc: CSpreadsheetDocument): string {
     var tableString = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">`;
@@ -117,11 +131,14 @@ function spreadsheetSheet(sheet: SpreadsheetDocumentSheet, doc: CSpreadsheetDocu
                                 style = 2;
                                 value = colCell.value;
                                 break;
-                            /*case "date":
+                            case "date": // days since 30.12.1899 with decimal for time
                                 type = "n";
-                                style = 3;
-                                value = colCell.value;
-                                break;*/
+                                style = 1;
+                                let dateValue = colCell.value as Date
+                                let timeZone = dateValue.getHours() - dateValue.getUTCHours()
+                                let valueTime = dateValue.getTime() + (timeZone * T_HOUR)
+                                value = (valueTime - T_1899_12_30) / T_DAY;
+                                break;
                             default:
                                 value = colCell.value;
                                 break;
