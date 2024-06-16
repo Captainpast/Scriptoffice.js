@@ -1,10 +1,13 @@
-_scriptOffice for JavaScript_
+_ScriptOffice for JavaScript_
 
 <div align="center">
   <img src="https://gitlab.com/Captainpast/scriptoffice.js/-/raw/main/logo.svg" alt="scriptOffice.js">
-</div>
 
-a library to create files of an office software suite like [LibreOffice](https://www.libreoffice.org/) programmcity and automated
+  [![Version](https://img.shields.io/npm/v/script-office)](https://www.npmjs.com/package/script-office)
+  [![Downloads](https://img.shields.io/npm/dm/script-office)](https://www.npmjs.com/package/script-office)
+
+  a library to create files of an office software suite like [LibreOffice](https://www.libreoffice.org/) programmcity and automated
+</div>
 
 # Using
 
@@ -23,7 +26,7 @@ import { OfficeDocument } from "script-office";
 ## CDN
 add to html head
 ```html
-<script src="https://cdn.jsdelivr.net/npm/script-office/dist/script-office.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/script-office/dist/script-office.umd.js"></script>
 ```
 
 # Documentation

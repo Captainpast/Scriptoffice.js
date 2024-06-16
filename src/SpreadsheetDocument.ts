@@ -175,6 +175,7 @@ export class SpreadsheetDocumentSheet {
     }
 
     autoFilter(range: string): boolean;
+    autoFilter(from: SpreadsheetDocumentCellPosition, to?: SpreadsheetDocumentCellPosition): boolean;
     autoFilter(from: SpreadsheetDocumentCellPosition, to?: SpreadsheetDocumentCellPosition): boolean {
         if (from) {
             if (!to) {

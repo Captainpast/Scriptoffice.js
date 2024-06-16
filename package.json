@@ -2,8 +2,8 @@
   "name": "script-office",
   "version": "0.0.5",
   "description": "a library to create files of an office software suite like LibreOffice programmcity and automated",
-  "main": "index.js",
-  "types": "index.d.ts",
+  "main": "dist/script-office.esm.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "test": "node test/test.js",
     "dev": "webpack watch --mode=development",

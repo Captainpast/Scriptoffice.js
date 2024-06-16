@@ -3,7 +3,7 @@ import { OfficeDocumentTypes } from "./OfficeDocument"
 import { SpreadsheetDocument } from "./SpreadsheetDocument"
 import { TextDocument } from "./TextDocument"
 
-export function create<T extends keyof OfficeDocumentTypes>(options: T | { type: T }): OfficeDocumentTypes[T] {
+function create<T extends keyof OfficeDocumentTypes>(options: T | { type: T }): OfficeDocumentTypes[T] {
     if (typeof(options) == "string") {
         options = { type: options }
     }
@@ -18,6 +18,8 @@ export function create<T extends keyof OfficeDocumentTypes>(options: T | { type:
 }
 
 /**@deprecated WIP*/
-export function load(src: string) {
+function load(src: string) {
     throw "not implemented\n"
 }
+
+export const OfficeDocument =  { create, load }
